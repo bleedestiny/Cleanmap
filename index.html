@@ -1,25 +1,29 @@
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=61f9ce735615595c9c947ffed8e89360"></script>
-<script>
-  // 노라벨 타일 URL (HTTPS)
-  const TILE_URL = "https://cartodb-basemaps-a.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png";
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cleanmap</title>
+  <style>
+    html, body { height: 100%; margin: 0; }
+    #map { width: 100%; height: 100%; }
+    .credit {
+      position: fixed; left: 8px; bottom: 8px; font: 12px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: rgba(255,255,255,.85); padding: 4px 6px; border-radius: 4px; border: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+	<div id="map" style="width:500px;height:400px;"></div>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=발급받은 APP KEY를 넣으시면 됩니다."></script>
+	<script>
+		var container = document.getElementById('map');
+		var options = {
+			center: new kakao.maps.LatLng(33.450701, 126.570667),
+			level: 3
+		};
 
-  // Kakao Tileset 등록 (XYZ → TMS y반전: yXYZ = (2^z - 1) - y)
-  kakao.maps.Tileset.add("NOLABEL",
-    new kakao.maps.Tileset(
-      256, 256,
-      function(x, y, z){
-        const yXYZ = Math.pow(2, z) - y - 1;
-        return TILE_URL.replace("{z}", z).replace("{x}", x).replace("{y}", yXYZ);
-      },
-      [ new kakao.maps.TilesetCopyright("© OpenStreetMap contributors · CARTO", "© OSM · CARTO", 0) ],
-      false, 0, 22
-    )
-  );
-
-  // 지도를 우리가 추가한 베이스 타입으로 생성
-  const map = new kakao.maps.Map(document.getElementById("map"), {
-    center: new kakao.maps.LatLng(36.3504, 127.3845),
-    level: 6,
-    mapTypeId: kakao.maps.MapTypeId.NOLABEL
-  });
-</script>
+		var map = new kakao.maps.Map(container, options);
+  </script>
+</body>
+</html>
