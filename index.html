@@ -2,43 +2,22 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
-  <title>Cleanmap</title>
+  <title>카카오 기본 지도 테스트</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    html, body { height:100%; margin:0; padding:0; }
+    html, body { height:100%; margin:0; }
     #map { width:100%; height:100%; }
   </style>
-  <!-- SDK: https + autoload=false + defer -->
-  <script defer src="https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=61f9ce735615595c9c947ffed8e89360></script>
+  <!-- 반드시 https 사용, 그리고 본인의 'JavaScript 키'로 교체 -->
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_JS_KEY"></script>
 </head>
 <body>
   <div id="map"></div>
-
   <script>
-    // SDK가 로드된 뒤에만 실행
-    window.addEventListener('DOMContentLoaded', function () {
-      kakao.maps.load(function () {
-
-        // 1) 테스트용: 표준 OSM(라벨 有)로 먼저 연결해 네트워크/좌표 변환 여부 확인
-        // 문제 없으면 아래 CARTO 노라벨로 바꿔주세요.
-        // var TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
-
-        // 1') 실제 목적: CARTO no-labels (밝은 톤)
-        var TILE_URL = "https://cartodb-basemaps-a.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png";
-        // 필요 시 B/C 호스트로 교체해 테스트
-        // var TILE_URL = "https://cartodb-basemaps-b.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png";
-        // var TILE_URL = "https://cartodb-basemaps-c.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png";
-
-        // 2) Kakao Tileset 등록 (XYZ → TMS y반전 필수)
-        kakao.maps.Tileset.add("NOLABEL",
-          new kakao.maps.Tileset(
-            256, 256,
-            function(x, y, z){
-              var yXYZ = Math.pow(2, z) - y - 1;
-              return TILE_URL
-                .replace("{z}", z)
-                .replace("{x}", x)
-                .replace("{y}", yXYZ);
-            },
-            [
-              { label
+    var map = new kakao.maps.Map(document.getElementById('map'), {
+      center: new kakao.maps.LatLng(37.5665, 126.9780),
+      level: 6
+    });
+  </script>
+</body>
+</html>
