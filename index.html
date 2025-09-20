@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
-  <title>노라벨 카카오 지도 (수정판)</title>
+  <title>노라벨 카카오 지도 (수정완료)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     html, body { height:100%; margin:0; }
@@ -15,29 +15,27 @@
   <script>
     window.addEventListener('DOMContentLoaded', function () {
       kakao.maps.load(function () {
-        // 서브도메인 배열
-        var subdomains = ['a', 'b', 'c', 'd'];
-
-        // Kakao Tileset 등록
-        kakao.maps.Tileset.add("NOLABEL",
+        var subs = ['a','b','c','d']; // Carto 서브도메인
+        // Kakao Tileset 등록 (XYZ → TMS y반전)
+        kakao.maps.Tileset.add('NOLABEL',
           new kakao.maps.Tileset(
             256, 256,
-            function(x, y, z){
-              var yXYZ = Math.pow(2, z) - y - 1; // Kakao(TMS) → XYZ
-              var s = subdomains[(x + y + z) % 4]; // a,b,c,d 순환
-              return "https://" + s + ".basemaps.cartocdn.com/light_nolabels/"
-                       + z + "/" + x + "/" + yXYZ + ".png";
+            function (x, y, z) {
+              var yXYZ = Math.pow(2, z) - y - 1;  // TMS→XYZ
+              var s = subs[(x + y + z) % 4];
+              // ✅ Carto 최신 경로: /rastertiles/light_nolabels/
+              return 'https://' + s + '.basemaps.cartocdn.com/rastertiles/light_nolabels/'
+                     + z + '/' + x + '/' + yXYZ + '.png';
             },
-            [{ label: "© OpenStreetMap contributors · CARTO", minZoom: 0, maxZoom: 22 }],
+            [{ label: '© OpenStreetMap contributors · CARTO', minZoom: 0, maxZoom: 22 }],
             false, 0, 22
           )
         );
 
-        // 지도 생성
-        var map = new kakao.maps.Map(document.getElementById("map"), {
+        var map = new kakao.maps.Map(document.getElementById('map'), {
           center: new kakao.maps.LatLng(37.5665, 126.9780),
           level: 6,
-          mapTypeId: kakao.maps.MapTypeId.NOLABEL
+          mapTypeId: kakao.maps.MapTypeId.NOLABEL  // 우리가 추가한 베이스맵 사용
         });
       });
     });
