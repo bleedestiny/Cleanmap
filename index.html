@@ -13,16 +13,26 @@
 </head>
 <body>
   <div id="map"></div>
-  <script>
-    // SDK가 로드된 후에만 실행
-    window.addEventListener('DOMContentLoaded', function () {
-      kakao.maps.load(function () {
-        var map = new kakao.maps.Map(document.getElementById('map'), {
-          center: new kakao.maps.LatLng(37.5665, 126.9780),
-          level: 6
-        });
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    kakao.maps.load(function () {
+      var TILE_URL = "https://cartodb-basemaps-a.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png";
+
+      kakao.maps.Tileset.add("NOLABEL",
+        new kakao.maps.Tileset(256, 256, function(x, y, z){
+          var yXYZ = Math.pow(2, z) - y - 1; // XYZ -> TMS y반전
+          return TILE_URL.replace("{z}", z).replace("{x}", x).replace("{y}", yXYZ);
+        }, [{label:"© OpenStreetMap contributors · CARTO", minZoom:0, maxZoom:22}], false, 0, 22)
+      );
+
+      var map = new kakao.maps.Map(document.getElementById("map"), {
+        center: new kakao.maps.LatLng(37.5665, 126.9780),
+        level: 6,
+        mapTypeId: kakao.maps.MapTypeId.NOLABEL
       });
     });
-  </script>
+  });
+</script>
+
 </body>
 </html>
