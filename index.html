@@ -23,8 +23,7 @@
             function(x, y, z){
               var yXYZ = Math.pow(2, z) - y - 1;  // TMS → XYZ 변환
               var s = subs[(x + y + z) % 4];      // a,b,c,d 순환
-              return 'https://' + s + '.basemaps.cartocdn.com/rastertiles/light_nolabels/'
-                     + z + '/' + x + '/' + yXYZ + '.png';
+              return 'https://tile.openstreetmap.org/' + z + '/' + x + '/' + yXYZ + '.png';
             },
             [{ label: '© OpenStreetMap contributors · CARTO', minZoom: 0, maxZoom: 22 }],
             false, 0, 22
